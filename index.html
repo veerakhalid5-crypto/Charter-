@@ -2,242 +2,227 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Market Intelligence</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Market Intelligence Engine</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Inter,Arial,sans-serif;
+:root{
+  --bg:#070b12;
+  --panel:#0d1420;
+  --panel2:#111b2a;
+  --line:#223047;
+  --text:#edf3fb;
+  --muted:#8fa2bb;
+  --green:#20d58a;
+  --red:#ff5570;
+  --yellow:#ffc857;
+  --blue:#55a8ff;
 }
 
+*{box-sizing:border-box}
+
 body{
-    background:#070b12;
-    color:#e8edf5;
-    min-height:100vh;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:14px Inter,system-ui,Arial,sans-serif
 }
 
 header{
-    padding:22px 28px;
-    border-bottom:1px solid #18202d;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+  padding:18px 22px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  position:sticky;
+  top:0;
+  background:#070b12ee;
+  backdrop-filter:blur(10px);
+  z-index:5
 }
 
-.logo{
-    font-size:21px;
-    font-weight:800;
+h1{font-size:19px;margin:0}
+
+.sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px
 }
 
-.logo span{
-    color:#5eead4;
+button,select{
+  background:var(--panel2);
+  color:var(--text);
+  border:1px solid var(--line);
+  padding:9px 12px;
+  border-radius:8px
 }
 
-.status{
-    font-size:12px;
-    color:#7dd3fc;
+main{
+  max-width:1500px;
+  margin:auto;
+  padding:18px
 }
-
-.container{
-    max-width:1500px;
-    margin:auto;
-    padding:25px;
-}
-
-.assets{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-}
-
-.asset{
-    background:#0d131d;
-    border:1px solid #1b2635;
-    border-radius:15px;
-    padding:18px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.asset:hover{
-    border-color:#3b82f6;
-    transform:translateY(-2px);
-}
-
-.asset.active{
-    border-color:#5eead4;
-}
-
-.asset-name{
-    color:#94a3b8;
-    font-size:13px;
-}
-
-.price{
-    font-size:27px;
-    font-weight:800;
-    margin:10px 0;
-}
-
-.change{
-    font-size:13px;
-}
-
-.green{color:#34d399}
-.red{color:#fb7185}
-.yellow{color:#fbbf24}
 
 .grid{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:18px;
-    margin-top:20px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px
 }
 
-.panel{
-    background:#0d131d;
-    border:1px solid #1b2635;
-    border-radius:16px;
-    padding:20px;
+.card,.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px
 }
 
-.panel-title{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:18px;
+.asset{cursor:pointer}
+.asset.active{border-color:var(--blue)}
+
+.symbol{font-weight:700}
+
+.price{
+  font-size:24px;
+  font-weight:800;
+  margin:9px 0 3px
 }
 
-.panel-title h2{
-    font-size:17px;
+.change.up{color:var(--green)}
+.change.down{color:var(--red)}
+
+.status{
+  font-size:11px;
+  color:var(--muted)
 }
 
-.badge{
-    padding:6px 10px;
-    border-radius:8px;
-    font-size:11px;
-    background:#10261f;
-    color:#34d399;
+.dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--green);
+  margin-right:6px
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:1.8fr 1fr;
+  gap:12px;
+  margin-top:12px
+}
+
+.panel h2{
+  font-size:15px;
+  margin:0 0 12px
+}
+
+.chartbox{
+  height:390px;
+  position:relative
+}
+
+.chartbox canvas{
+  width:100%;
+  height:100%
+}
+
+.toolbar{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-bottom:9px
+}
+
+.tf.active{
+  border-color:var(--blue);
+  color:var(--blue)
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px
+}
+
+.metric{
+  background:var(--panel2);
+  padding:10px;
+  border-radius:8px
+}
+
+.metric b{
+  display:block;
+  font-size:16px;
+  margin-top:4px
+}
+
+.metric span{
+  font-size:11px;
+  color:var(--muted)
 }
 
 .signal{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
+  font-size:27px;
+  font-weight:900;
+  margin:8px 0
 }
 
-.signal-box{
-    background:#090e16;
-    border:1px solid #172231;
-    border-radius:12px;
-    padding:15px;
+.bull{color:var(--green)}
+.bear{color:var(--red)}
+.neutral{color:var(--yellow)}
+.avoid{color:#ff9b54}
+
+.score{
+  height:8px;
+  background:#1b2637;
+  border-radius:99px;
+  overflow:hidden;
+  margin:7px 0 12px
 }
 
-.signal-box small{
-    color:#64748b;
-    display:block;
-    margin-bottom:8px;
+.score i{
+  display:block;
+  height:100%;
+  background:var(--blue);
+  width:0
 }
 
-.signal-box strong{
-    font-size:19px;
+.rows{
+  display:grid;
+  gap:7px
 }
 
-.chart{
-    height:230px;
-    position:relative;
-    overflow:hidden;
-    border-radius:12px;
-    background:#080d15;
-    border:1px solid #172231;
+.row{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px solid #182338
 }
 
-canvas{
-    width:100%;
-    height:100%;
+.row:last-child{border:0}
+
+.muted{color:var(--muted)}
+
+.notice{
+  margin-top:12px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5
 }
 
-.indicators{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-top:15px;
+.wide{margin-top:12px}
+
+@media(max-width:1000px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .layout{grid-template-columns:1fr}
 }
 
-.indicator{
-    background:#090e16;
-    padding:13px;
-    border-radius:10px;
-}
-
-.indicator small{
-    color:#64748b;
-}
-
-.indicator div{
-    margin-top:5px;
-    font-weight:700;
-}
-
-.summary{
-    line-height:1.7;
-    color:#b8c2d1;
-    font-size:14px;
-}
-
-.warning{
-    margin-top:15px;
-    padding:13px;
-    border-radius:10px;
-    background:#241b0b;
-    border:1px solid #594218;
-    color:#fbbf24;
-    font-size:13px;
-}
-
-.sources{
-    margin-top:20px;
-}
-
-.source{
-    display:flex;
-    justify-content:space-between;
-    padding:11px 0;
-    border-bottom:1px solid #18202d;
-    font-size:13px;
-}
-
-.source span:last-child{
-    color:#34d399;
-}
-
-footer{
-    margin-top:25px;
-    color:#64748b;
-    font-size:11px;
-    text-align:center;
-}
-
-@media(max-width:900px){
-    .assets{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .grid{
-        grid-template-columns:1fr;
-    }
-}
-
-@media(max-width:550px){
-    .assets{
-        grid-template-columns:1fr;
-    }
-
-    .indicators{
-        grid-template-columns:1fr;
-    }
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  main{padding:10px}
+  .chartbox{height:300px}
 }
 </style>
 </head>
@@ -245,444 +230,1240 @@ footer{
 <body>
 
 <header>
-    <div class="logo">
-        AI <span>MARKET INTELLIGENCE</span>
+  <div>
+    <h1>Market Intelligence Engine</h1>
+    <div class="sub">
+      Live data • Multi-timeframe analysis • No fabricated prices/signals
     </div>
+  </div>
 
-    <div class="status">
-        ● ENGINE ONLINE
-    </div>
+  <button id="refresh">↻ Refresh</button>
 </header>
 
-<div class="container">
+<main>
 
-    <!-- ASSETS -->
+<div class="grid" id="assets"></div>
 
-    <div class="assets">
+<div class="layout">
 
-        <div class="asset active" onclick="selectAsset('BTC')">
-            <div class="asset-name">BTC / USDT</div>
-            <div class="price" id="btcPrice">$67,420</div>
-            <div class="change green">+2.41%</div>
-        </div>
+<section class="panel">
 
-        <div class="asset" onclick="selectAsset('ETH')">
-            <div class="asset-name">ETH / USDT</div>
-            <div class="price" id="ethPrice">$3,840</div>
-            <div class="change green">+1.73%</div>
-        </div>
+<h2 id="chartTitle">BTC/USDT</h2>
 
-        <div class="asset" onclick="selectAsset('SOL')">
-            <div class="asset-name">SOL / USDT</div>
-            <div class="price" id="solPrice">$182.60</div>
-            <div class="change red">-0.84%</div>
-        </div>
+<div class="toolbar">
+  <button class="tf active" data-tf="5m">5m</button>
+  <button class="tf" data-tf="15m">15m</button>
+  <button class="tf" data-tf="1h">1H</button>
+  <button class="tf" data-tf="4h">4H</button>
+  <button class="tf" data-tf="1d">1D</button>
+</div>
 
-        <div class="asset" onclick="selectAsset('GOLD')">
-            <div class="asset-name">GOLD / XAUUSD</div>
-            <div class="price" id="goldPrice">$2,685</div>
-            <div class="change green">+0.48%</div>
-        </div>
+<div class="chartbox">
+  <canvas id="chart"></canvas>
+</div>
 
-    </div>
+<div class="notice" id="chartStatus">
+  Loading live candles…
+</div>
 
+</section>
 
-    <div class="grid">
 
-        <!-- LEFT -->
+<section class="panel">
 
-        <div>
+<h2>AI Decision Engine</h2>
 
-            <div class="panel">
+<div id="signal" class="signal neutral">
+  ANALYZING
+</div>
 
-                <div class="panel-title">
-                    <h2 id="selectedAsset">BTC / USDT — AI Analysis</h2>
-                    <div class="badge">LIVE ENGINE</div>
-                </div>
+<div class="score">
+  <i id="confidenceBar"></i>
+</div>
 
-                <div class="chart">
-                    <canvas id="chart"></canvas>
-                </div>
+<div class="rows" id="decisionRows"></div>
 
-                <div class="indicators">
+<div class="notice">
+This is an analytical engine, not a guarantee of future price movement.
+</div>
 
-                    <div class="indicator">
-                        <small>RSI</small>
-                        <div id="rsi">61.4</div>
-                    </div>
-
-                    <div class="indicator">
-                        <small>MACD</small>
-                        <div class="green" id="macd">Bullish</div>
-                    </div>
-
-                    <div class="indicator">
-                        <small>EMA TREND</small>
-                        <div class="green" id="ema">Bullish</div>
-                    </div>
-
-                    <div class="indicator">
-                        <small>VOLUME</small>
-                        <div id="volume">High</div>
-                    </div>
-
-                    <div class="indicator">
-                        <small>OPEN INTEREST</small>
-                        <div id="oi">Increasing</div>
-                    </div>
-
-                    <div class="indicator">
-                        <small>FUNDING</small>
-                        <div id="funding">+0.012%</div>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="panel" style="margin-top:18px">
-
-                <div class="panel-title">
-                    <h2>AI Trade Structure</h2>
-                    <div class="badge">MODEL OUTPUT</div>
-                </div>
-
-                <div class="signal">
-
-                    <div class="signal-box">
-                        <small>MARKET BIAS</small>
-                        <strong class="green" id="bias">BULLISH</strong>
-                    </div>
-
-                    <div class="signal-box">
-                        <small>CONFIDENCE</small>
-                        <strong id="confidence">78%</strong>
-                    </div>
-
-                    <div class="signal-box">
-                        <small>ENTRY ZONE</small>
-                        <strong id="entry">$67,200 – $67,500</strong>
-                    </div>
-
-                    <div class="signal-box">
-                        <small>STOP LOSS</small>
-                        <strong class="red" id="sl">$66,500</strong>
-                    </div>
-
-                    <div class="signal-box">
-                        <small>TAKE PROFIT 1</small>
-                        <strong class="green" id="tp1">$68,400</strong>
-                    </div>
-
-                    <div class="signal-box">
-                        <small>TAKE PROFIT 2</small>
-                        <strong class="green" id="tp2">$69,300</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- RIGHT -->
-
-        <div>
-
-            <div class="panel">
-
-                <div class="panel-title">
-                    <h2>AI Decision Engine</h2>
-                </div>
-
-                <div class="summary" id="summary">
-
-                    Price structure is currently bullish.
-                    Momentum is positive and volume is supporting
-                    the move.
-
-                    <br><br>
-
-                    However, elevated funding and RSI conditions
-                    indicate that chasing the move may increase
-                    reversal risk.
-
-                </div>
-
-                <div class="warning">
-                    ⚠ False Signal Risk: Medium
-                </div>
-
-            </div>
-
-
-            <div class="panel sources">
-
-                <div class="panel-title">
-                    <h2>Data Sources</h2>
-                </div>
-
-                <div class="source">
-                    <span>Exchange Market Data</span>
-                    <span>CONNECTED</span>
-                </div>
-
-                <div class="source">
-                    <span>Price / Volume</span>
-                    <span>CONNECTED</span>
-                </div>
-
-                <div class="source">
-                    <span>Open Interest</span>
-                    <span>CONNECTED</span>
-                </div>
-
-                <div class="source">
-                    <span>Funding Rate</span>
-                    <span>CONNECTED</span>
-                </div>
-
-                <div class="source">
-                    <span>News / Sentiment</span>
-                    <span>READY</span>
-                </div>
-
-                <div class="source">
-                    <span>Fear & Greed</span>
-                    <span>READY</span>
-                </div>
-
-                <div class="source">
-                    <span>On-Chain Data</span>
-                    <span>READY</span>
-                </div>
-
-            </div>
-
-
-            <div class="panel" style="margin-top:18px">
-
-                <div class="panel-title">
-                    <h2>Signal Breakdown</h2>
-                </div>
-
-                <div class="source">
-                    <span>Trend</span>
-                    <span>82%</span>
-                </div>
-
-                <div class="source">
-                    <span>Momentum</span>
-                    <span>76%</span>
-                </div>
-
-                <div class="source">
-                    <span>Volume</span>
-                    <span>81%</span>
-                </div>
-
-                <div class="source">
-                    <span>Sentiment</span>
-                    <span>69%</span>
-                </div>
-
-                <div class="source">
-                    <span>Derivatives</span>
-                    <span>72%</span>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <footer>
-        Prototype only — signals shown here are sample calculations, not financial advice.
-    </footer>
+</section>
 
 </div>
 
 
+<section class="panel wide">
+
+<h2>Market Intelligence</h2>
+
+<div class="metrics" id="metrics"></div>
+
+</section>
+
+
+<section class="panel wide">
+
+<h2>Signal Quality & Manipulation Checks</h2>
+
+<div class="rows" id="checks"></div>
+
+</section>
+
+
+<section class="panel wide">
+
+<h2>Data Sources</h2>
+
+<div class="rows" id="sources">
+
+<div class="row">
+  <span>BTC / ETH / SOL</span>
+  <b>Binance Public API</b>
+</div>
+
+<div class="row">
+  <span>Gold XAU/USD</span>
+  <b>Not connected</b>
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
 <script>
 
-let currentAsset = "BTC";
+const API="https://api.binance.com";
 
-const data = {
+const assets={
+  BTC:{
+    symbol:"BTCUSDT",
+    name:"BTC/USDT"
+  },
 
-BTC:{
-    price:67420,
-    rsi:"61.4",
-    macd:"Bullish",
-    ema:"Bullish",
-    volume:"High",
-    oi:"Increasing",
-    funding:"+0.012%",
-    bias:"BULLISH",
-    confidence:"78%",
-    entry:"$67,200 – $67,500",
-    sl:"$66,500",
-    tp1:"$68,400",
-    tp2:"$69,300"
-},
+  ETH:{
+    symbol:"ETHUSDT",
+    name:"ETH/USDT"
+  },
 
-ETH:{
-    price:3840,
-    rsi:"57.2",
-    macd:"Bullish",
-    ema:"Bullish",
-    volume:"Medium",
-    oi:"Increasing",
-    funding:"+0.009%",
-    bias:"BULLISH",
-    confidence:"72%",
-    entry:"$3,810 – $3,845",
-    sl:"$3,745",
-    tp1:"$3,920",
-    tp2:"$4,020"
-},
+  SOL:{
+    symbol:"SOLUSDT",
+    name:"SOL/USDT"
+  },
 
-SOL:{
-    price:182.60,
-    rsi:"48.8",
-    macd:"Neutral",
-    ema:"Bearish",
-    volume:"Medium",
-    oi:"Decreasing",
-    funding:"-0.004%",
-    bias:"NEUTRAL",
-    confidence:"54%",
-    entry:"$181 – $184",
-    sl:"$176",
-    tp1:"$189",
-    tp2:"$196"
-},
-
-GOLD:{
-    price:2685,
-    rsi:"59.7",
-    macd:"Bullish",
-    ema:"Bullish",
-    volume:"Medium",
-    oi:"Stable",
-    funding:"N/A",
-    bias:"BULLISH",
-    confidence:"74%",
-    entry:"$2,675 – $2,690",
-    sl:"$2,655",
-    tp1:"$2,715",
-    tp2:"$2,745"
-}
-
+  GOLD:{
+    symbol:null,
+    name:"XAU/USD"
+  }
 };
 
+let selected="BTC";
+let timeframe="5m";
+let candles=[];
+let lastData={};
 
-function selectAsset(asset){
 
-    currentAsset = asset;
+const $=id=>document.getElementById(id);
 
-    document.querySelectorAll(".asset")
-        .forEach(x=>x.classList.remove("active"));
 
-    event.currentTarget.classList.add("active");
-
-    const d=data[asset];
-
-    document.getElementById("selectedAsset").innerText =
-        asset==="GOLD"
-        ? "GOLD / XAUUSD — AI Analysis"
-        : asset+" / USDT — AI Analysis";
-
-    document.getElementById("rsi").innerText=d.rsi;
-    document.getElementById("macd").innerText=d.macd;
-    document.getElementById("ema").innerText=d.ema;
-    document.getElementById("volume").innerText=d.volume;
-    document.getElementById("oi").innerText=d.oi;
-    document.getElementById("funding").innerText=d.funding;
-
-    document.getElementById("bias").innerText=d.bias;
-    document.getElementById("confidence").innerText=d.confidence;
-    document.getElementById("entry").innerText=d.entry;
-    document.getElementById("sl").innerText=d.sl;
-    document.getElementById("tp1").innerText=d.tp1;
-    document.getElementById("tp2").innerText=d.tp2;
-
-    drawChart();
+function fmt(n,d=2){
+  return Number.isFinite(n)
+    ? n.toLocaleString(undefined,{
+        maximumFractionDigits:d
+      })
+    : "—";
 }
 
 
-function drawChart(){
+function pct(n){
+  return Number.isFinite(n)
+    ? (n>=0?"+":"")+n.toFixed(2)+"%"
+    : "—";
+}
 
-    const canvas=document.getElementById("chart");
 
-    const ctx=canvas.getContext("2d");
+async function getJSON(url){
 
-    canvas.width=canvas.clientWidth*2;
-    canvas.height=canvas.clientHeight*2;
+  const r=await fetch(url,{
+    cache:"no-store"
+  });
 
-    ctx.scale(2,2);
+  if(!r.ok)
+    throw new Error("HTTP "+r.status);
 
-    const w=canvas.clientWidth;
-    const h=canvas.clientHeight;
+  return r.json();
+}
 
-    ctx.clearRect(0,0,w,h);
 
-    let points=[];
+/* =========================
+   INDICATORS
+========================= */
 
-    let value=100;
+function sma(a,n){
 
-    for(let i=0;i<60;i++){
+  if(a.length<n) return NaN;
 
-        value += (Math.random()-.44)*5;
+  let s=0;
 
-        points.push(value);
+  for(
+    let i=a.length-n;
+    i<a.length;
+    i++
+  ){
+    s+=a[i];
+  }
+
+  return s/n;
+}
+
+
+function ema(a,n){
+
+  if(a.length<n) return NaN;
+
+  const k=2/(n+1);
+
+  let e=sma(a.slice(0,n),n);
+
+  for(
+    let i=n;
+    i<a.length;
+    i++
+  ){
+    e=a[i]*k+e*(1-k);
+  }
+
+  return e;
+}
+
+
+function rsi(a,n=14){
+
+  if(a.length<n+1) return NaN;
+
+  let g=0;
+  let l=0;
+
+  for(
+    let i=a.length-n;
+    i<a.length;
+    i++
+  ){
+
+    let d=a[i]-a[i-1];
+
+    if(d>0)
+      g+=d;
+    else
+      l-=d;
+  }
+
+  if(l===0)
+    return 100;
+
+  const rs=(g/n)/(l/n);
+
+  return 100-100/(1+rs);
+}
+
+
+function atr(c,n=14){
+
+  if(c.length<n+1)
+    return NaN;
+
+  let tr=[];
+
+  for(let i=1;i<c.length;i++){
+
+    tr.push(
+      Math.max(
+        c[i].h-c[i].l,
+        Math.abs(c[i].h-c[i-1].c),
+        Math.abs(c[i].l-c[i-1].c)
+      )
+    );
+
+  }
+
+  return sma(tr,n);
+}
+
+
+function macd(a){
+
+  return ema(a,12)-ema(a,26);
+
+}
+
+
+function pctChange(a,n=1){
+
+  if(a.length<=n)
+    return NaN;
+
+  return(
+    (a[a.length-1]-
+     a[a.length-1-n])
+    /
+    a[a.length-1-n]
+  )*100;
+
+}
+
+
+/* =========================
+   ASSET CARDS
+========================= */
+
+async function loadAssetCards(){
+
+  const box=$("assets");
+
+  box.innerHTML="";
+
+  for(
+    const [key,a]
+    of Object.entries(assets)
+  ){
+
+    let price=null;
+    let chg=null;
+    let ok=false;
+
+    if(a.symbol){
+
+      try{
+
+        const d=await getJSON(
+          API+
+          "/api/v3/ticker/24hr?symbol="+
+          a.symbol
+        );
+
+        price=+d.lastPrice;
+        chg=+d.priceChangePercent;
+
+        ok=true;
+
+        lastData[key]={
+          ...(lastData[key]||{}),
+          price,
+          chg
+        };
+
+      }catch(e){}
 
     }
 
-    ctx.beginPath();
+    box.innerHTML+=`
 
-    points.forEach((p,i)=>{
+      <div
+        class="card asset
+        ${key===selected?"active":""}"
+        data-asset="${key}"
+      >
 
-        let x=i*(w/(points.length-1));
+        <div class="symbol">
+          ${a.name}
+        </div>
 
-        let min=Math.min(...points);
-        let max=Math.max(...points);
+        <div class="price">
 
-        let y=h-((p-min)/(max-min))*h*.8-20;
+          ${
+            price!==null
+            ?
+            "$"+fmt(
+              price,
+              price<10?4:2
+            )
+            :
+            "DATA UNAVAILABLE"
+          }
 
-        if(i===0)
-            ctx.moveTo(x,y);
-        else
-            ctx.lineTo(x,y);
+        </div>
 
-    });
+        <div class="change ${
+          chg>=0?"up":"down"
+        }">
 
-    ctx.strokeStyle="#5eead4";
-    ctx.lineWidth=2;
-    ctx.stroke();
+          ${
+            chg!==null
+            ? pct(chg)
+            : "—"
+          }
+
+        </div>
+
+        <div class="status">
+
+          <span class="dot"></span>
+
+          ${
+            ok
+            ?
+            "LIVE • Binance public market data"
+            :
+            "NO LIVE SOURCE CONNECTED"
+          }
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  document
+  .querySelectorAll(".asset")
+  .forEach(x=>{
+
+    x.onclick=()=>{
+
+      selected=x.dataset.asset;
+
+      loadAll();
+
+    };
+
+  });
 
 }
 
 
-setInterval(()=>{
+/* =========================
+   CANDLE DATA
+========================= */
 
-    const d=data[currentAsset];
+async function loadCandles(){
 
-    const movement=(Math.random()-.5)*20;
+  const a=assets[selected];
 
-    d.price+=movement;
+  if(!a.symbol){
+
+    candles=[];
+
+    $("chartStatus").textContent=
+      "Gold: no live source connected in this single-file build. No fake price is displayed.";
 
     drawChart();
 
-},5000);
+    renderUnavailable();
+
+    return;
+  }
 
 
-drawChart();
+  try{
+
+    const data=await getJSON(
+
+      API+
+      "/api/v3/klines?symbol="+
+      a.symbol+
+      "&interval="+
+      timeframe+
+      "&limit=300"
+
+    );
+
+
+    candles=data.map(x=>({
+
+      t:x[0],
+      o:+x[1],
+      h:+x[2],
+      l:+x[3],
+      c:+x[4],
+      v:+x[5]
+
+    }));
+
+
+    $("chartStatus").textContent=
+      "LIVE • "+
+      candles.length+
+      " candles • "+
+      new Date(
+        candles.at(-1).t
+      ).toLocaleString();
+
+
+    drawChart();
+
+    analyze();
+
+  }catch(e){
+
+    candles=[];
+
+    $("chartStatus").textContent=
+      "LIVE DATA ERROR: "+
+      e.message+
+      " — no stale/random data used.";
+
+    drawChart();
+
+    renderUnavailable();
+
+  }
+
+}
+
+
+/* =========================
+   NO DATA STATE
+========================= */
+
+function renderUnavailable(){
+
+  $("signal").textContent=
+    "DATA UNAVAILABLE";
+
+  $("signal").className=
+    "signal neutral";
+
+  $("confidenceBar").style.width=
+    "0%";
+
+
+  $("decisionRows").innerHTML=`
+
+    <div class="row">
+      <span>Status</span>
+      <b>Insufficient live data</b>
+    </div>
+
+    <div class="row">
+      <span>Action</span>
+      <b>NO SIGNAL</b>
+    </div>
+
+  `;
+
+
+  $("metrics").innerHTML=
+
+    [
+      "Price",
+      "RSI",
+      "EMA20",
+      "EMA50",
+      "MACD",
+      "ATR",
+      "Volume",
+      "Trend",
+      "Volatility",
+      "Data quality"
+    ]
+
+    .map(x=>`
+
+      <div class="metric">
+
+        <span>${x}</span>
+
+        <b>—</b>
+
+      </div>
+
+    `)
+    .join("");
+
+
+  $("checks").innerHTML=`
+
+    <div class="row">
+
+      <span>Signal quality</span>
+
+      <b>Cannot assess</b>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   ANALYSIS ENGINE
+========================= */
+
+function analyze(){
+
+  if(candles.length<60){
+
+    renderUnavailable();
+
+    return;
+
+  }
+
+
+  const c=
+    candles.map(x=>x.c);
+
+  const v=
+    candles.map(x=>x.v);
+
+  const last=
+    c.at(-1);
+
+  const r=
+    rsi(c);
+
+  const e20=
+    ema(c,20);
+
+  const e50=
+    ema(c,50);
+
+  const m=
+    macd(c);
+
+  const a=
+    atr(c);
+
+
+  const volNow=
+    v.at(-1);
+
+  const volAvg=
+    sma(v,20);
+
+  const volRatio=
+    volNow/volAvg;
+
+
+  const ret5=
+    pctChange(c,5);
+
+  const ret20=
+    pctChange(c,20);
+
+
+  let score=0;
+
+  let reasons=[];
+
+
+  if(last>e20){
+
+    score++;
+
+    reasons.push(
+      "Price above EMA20"
+    );
+
+  }else{
+
+    score--;
+
+    reasons.push(
+      "Price below EMA20"
+    );
+
+  }
+
+
+  if(e20>e50){
+
+    score++;
+
+    reasons.push(
+      "EMA20 above EMA50"
+    );
+
+  }else{
+
+    score--;
+
+    reasons.push(
+      "EMA20 below EMA50"
+    );
+
+  }
+
+
+  if(m>0){
+
+    score++;
+
+    reasons.push(
+      "MACD positive"
+    );
+
+  }else{
+
+    score--;
+
+    reasons.push(
+      "MACD negative"
+    );
+
+  }
+
+
+  if(r>55 && r<75){
+
+    score++;
+
+    reasons.push(
+      "RSI bullish zone"
+    );
+
+  }
+
+  else if(r<45){
+
+    score--;
+
+    reasons.push(
+      "RSI bearish zone"
+    );
+
+  }
+
+
+  if(volRatio>1.5){
+
+    reasons.push(
+      "Volume anomaly detected"
+    );
+
+  }
+
+
+  const direction=
+
+    score>=2
+    ?
+    "BULLISH"
+    :
+    score<=-2
+    ?
+    "BEARISH"
+    :
+    "NEUTRAL";
+
+
+  const extreme=
+    r>78 || r<22;
+
+  const abnormal=
+    volRatio>2.5;
+
+  const conflicted=
+
+    (
+      direction==="BULLISH" &&
+      r>80
+    )
+    ||
+    (
+      direction==="BEARISH" &&
+      r<20
+    );
+
+
+  let final=
+    direction;
+
+
+  if(
+    (extreme&&abnormal)
+    ||
+    conflicted
+  ){
+
+    final=
+      "AVOID / CONFLICTED";
+
+  }
+
+
+  let confidence=
+
+    Math.min(
+      95,
+      50+
+      Math.abs(score)*9+
+      (Math.min(volRatio,2)-1)*5
+    );
+
+
+  if(
+    final==="AVOID / CONFLICTED"
+  ){
+
+    confidence=
+      Math.min(
+        confidence,
+        55
+      );
+
+  }
+
+
+  const cls=
+
+    final.startsWith("BULL")
+    ?
+    "bull"
+    :
+    final.startsWith("BEAR")
+    ?
+    "bear"
+    :
+    final.startsWith("AVOID")
+    ?
+    "avoid"
+    :
+    "neutral";
+
+
+  $("signal").textContent=
+    final;
+
+  $("signal").className=
+    "signal "+cls;
+
+
+  $("confidenceBar").style.width=
+    confidence+"%";
+
+
+  $("decisionRows").innerHTML=
+
+    [
+
+      [
+        "Confidence",
+        confidence.toFixed(0)+"%"
+      ],
+
+      [
+        "Trend",
+        e20>e50
+        ?
+        "Bullish"
+        :
+        "Bearish"
+      ],
+
+      [
+        "Momentum",
+        m>0
+        ?
+        "Positive"
+        :
+        "Negative"
+      ],
+
+      [
+        "RSI",
+        fmt(r,1)
+      ],
+
+      [
+        "Volume state",
+        volRatio>1.5
+        ?
+        "ABNORMAL / HIGH"
+        :
+        "Normal"
+      ],
+
+      [
+        "Manipulation risk",
+        abnormal
+        ?
+        "Elevated"
+        :
+        "Not detected from volume alone"
+      ],
+
+      [
+        "Action",
+        final==="AVOID / CONFLICTED"
+        ?
+        "WAIT / AVOID"
+        :
+        final==="NEUTRAL"
+        ?
+        "WAIT"
+        :
+        final
+      ]
+
+    ]
+
+    .map(x=>`
+
+      <div class="row">
+
+        <span>${x[0]}</span>
+
+        <b>${x[1]}</b>
+
+      </div>
+
+    `)
+    .join("");
+
+
+  $("metrics").innerHTML=
+
+    [
+
+      [
+        "Price",
+        "$"+fmt(
+          last,
+          last<10?4:2
+        )
+      ],
+
+      [
+        "5-candle move",
+        pct(ret5)
+      ],
+
+      [
+        "RSI",
+        fmt(r,1)
+      ],
+
+      [
+        "EMA20",
+        "$"+fmt(e20,2)
+      ],
+
+      [
+        "EMA50",
+        "$"+fmt(e50,2)
+      ],
+
+      [
+        "MACD",
+        fmt(m,4)
+      ],
+
+      [
+        "ATR",
+        fmt(a,4)
+      ],
+
+      [
+        "Volume ratio",
+        fmt(volRatio,2)+"×"
+      ],
+
+      [
+        "20-candle move",
+        pct(ret20)
+      ]
+
+    ]
+
+    .map(x=>`
+
+      <div class="metric">
+
+        <span>${x[0]}</span>
+
+        <b>${x[1]}</b>
+
+      </div>
+
+    `)
+    .join("");
+
+
+  $("checks").innerHTML=
+
+    [
+
+      [
+        "Trend alignment",
+        e20>e50
+        ?
+        "Aligned bullish"
+        :
+        "Aligned bearish"
+      ],
+
+      [
+        "Volume anomaly",
+        volRatio>2.5
+        ?
+        "HIGH — investigate"
+        :
+        "Normal"
+      ],
+
+      [
+        "Extreme RSI",
+        extreme
+        ?
+        "YES — reversal risk"
+        :
+        "No"
+      ],
+
+      [
+        "Price/volume conflict",
+        (
+          volRatio>2 &&
+          Math.abs(ret5)<.2
+        )
+        ?
+        "YES — suspicious"
+        :
+        "No obvious conflict"
+      ],
+
+      [
+        "Signal state",
+        final
+      ],
+
+      [
+        "Historical model",
+        "Not yet trained — no fabricated probability"
+      ],
+
+      [
+        "Derivatives",
+        "Not connected in this client-only build"
+      ]
+
+    ]
+
+    .map(x=>`
+
+      <div class="row">
+
+        <span>${x[0]}</span>
+
+        <b>${x[1]}</b>
+
+      </div>
+
+    `)
+    .join("");
+
+}
+
+
+/* =========================
+   CHART
+========================= */
+
+function drawChart(){
+
+  const canvas=
+    $("chart");
+
+  const ctx=
+    canvas.getContext("2d");
+
+  const dpr=
+    devicePixelRatio||1;
+
+  const w=
+    canvas.clientWidth;
+
+  const h=
+    canvas.clientHeight;
+
+
+  canvas.width=
+    w*dpr;
+
+  canvas.height=
+    h*dpr;
+
+
+  ctx.setTransform(
+    dpr,
+    0,
+    0,
+    dpr,
+    0,
+    0
+  );
+
+
+  ctx.clearRect(
+    0,
+    0,
+    w,
+    h
+  );
+
+
+  ctx.strokeStyle=
+    "#1b2739";
+
+  ctx.lineWidth=1;
+
+
+  for(let i=1;i<6;i++){
+
+    let y=
+      i*h/6;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      0,
+      y
+    );
+
+    ctx.lineTo(
+      w,
+      y
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  if(!candles.length)
+    return;
+
+
+  const arr=
+    candles.slice(-150);
+
+
+  const min=
+    Math.min(
+      ...arr.map(x=>x.l)
+    );
+
+  const max=
+    Math.max(
+      ...arr.map(x=>x.h)
+    );
+
+
+  const range=
+    max-min||1;
+
+
+  ctx.beginPath();
+
+
+  arr.forEach((x,i)=>{
+
+    const px=
+      i*(w-10)/
+      (arr.length-1)+5;
+
+    const py=
+      h-8-
+      (x.c-min)/
+      range*
+      (h-16);
+
+
+    if(i)
+      ctx.lineTo(px,py);
+    else
+      ctx.moveTo(px,py);
+
+  });
+
+
+  ctx.strokeStyle=
+    "#55a8ff";
+
+  ctx.lineWidth=2;
+
+  ctx.stroke();
+
+}
+
+
+/* =========================
+   CONTROLS
+========================= */
+
+document
+.querySelectorAll(".tf")
+.forEach(b=>{
+
+  b.onclick=()=>{
+
+    document
+    .querySelectorAll(".tf")
+    .forEach(x=>
+      x.classList.remove("active")
+    );
+
+    b.classList.add("active");
+
+    timeframe=
+      b.dataset.tf;
+
+    loadCandles();
+
+  };
+
+});
+
+
+$("refresh").onclick=
+  loadAll;
+
+
+window.addEventListener(
+  "resize",
+  drawChart
+);
+
+
+/* =========================
+   START
+========================= */
+
+async function loadAll(){
+
+  $("chartTitle").textContent=
+    assets[selected].name;
+
+  await loadAssetCards();
+
+  await loadCandles();
+
+}
+
+
+loadAll();
+
+
+/* Live refresh */
+
+setInterval(
+  loadAssetCards,
+  15000
+);
+
+
+setInterval(
+  loadCandles,
+  30000
+);
 
 </script>
 
 </body>
-  </html>
+</html>
